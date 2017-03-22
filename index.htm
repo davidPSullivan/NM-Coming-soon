@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<!-- PAGE TITLE -->
+		<title>Coming Soon</title>
+
+		<!-- SHADERS -->
+		<script id="vs" type="x-shader/x-vertex">
+			varying vec2 vUv;
+
+			void main() {
+
+				vUv = uv;
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+			}
+		</script>
+		<script id="fs" type="x-shader/x-fragment">
+			uniform sampler2D map;
+
+			uniform vec3 fogColor;
+			uniform float fogNear;
+			uniform float fogFar;
+
+			varying vec2 vUv;
+
+			void main() {
+
+				float depth = gl_FragCoord.z / gl_FragCoord.w;
+				float fogFactor = smoothstep( fogNear, fogFar, depth );
+
+				gl_FragColor = texture2D( map, vUv );
+				gl_FragColor.w *= pow( gl_FragCoord.z, 20.0 );
+				gl_FragColor = mix( gl_FragColor, vec4( fogColor, gl_FragColor.w ), fogFactor );
+
+			}
+		</script>
+
+		<!-- META/CSS/JS -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="js/jquery.transit.min.js"></script>
+		<script src="js/site.js"></script>
+		<script type="text/javascript" src="js/three.min.js"></script>
+		<script type="text/javascript" src="js/Detector.js"></script>
+		<script type="text/javascript" src="js/clouds.js"></script>
+		<script type="text/javascript" src="js/fallback.js"></script>
+
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/icons.css">
+		<link rel="stylesheet" href="css/fallback.css">
+
+
+	</head>
+	<body class="">
+		<div class="logo"></div>
+
+
+		<!-- SOCIAL ICONS WITH LINKS -->
+		<div class="socials transit">
+			<!-- HREF IS URL fa-name is icon name and can be replaced with any name from http://fortawesome.github.io/Font-Awesome/icons/ -->
+			<a href="www.facebook.com/yournazaritemedia" target="_blank"><div class="www.social transit"><i class="fa fa-facebook"></i></div></a>
+			<a href="#" target="_blank"><div class="social transit"><i class="fa fa-twitter"></i></div></a>
+			<a href="#" target="_blank"><div class="social transit"><i class="fa fa-youtube"></i></div></a>
+		</div>
+		<!-- END SOCIAL ICONS -->
+
+
+		<!-- PREVIEW OF BACKGROUNDS - REMOVE IF DONT NEEDED -->
+		<div class="preview transit">
+			<div class="next"><i class="fa fa-angle-double-right"></i></div>
+			<div class="prev"><i class="fa fa-angle-double-left"></i></div>
+		</div>
+		<!-- END OF PREVIEW OF BACKGROUNDS - REMOVE IF DONT NEEDED -->
+
+
+	</body>
+</html>
